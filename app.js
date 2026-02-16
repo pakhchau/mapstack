@@ -18,13 +18,21 @@ const colorMap = {
 
 // Initialize map
 function initMap() {
-    // Default to Niseko, Japan
-    map = L.map('map').setView([42.8050, 140.6890], 13);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19
-    }).addTo(map);
+    try {
+        // Default to Niseko, Japan
+        map = L.map('map').setView([42.8050, 140.6890], 13);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+            crossOrigin: true
+        }).addTo(map);
+        
+        console.log('Map initialized successfully');
+    } catch (error) {
+        console.error('Map initialization error:', error);
+        alert('Error loading map. Please refresh the page.');
+    }
 }
 
 // Geocode address to lat/lng using Nominatim (free)
