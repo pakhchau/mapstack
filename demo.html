@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MapStack Demo - Niseko</title>
+    <script>
+        // Pre-populate with Niseko ramen & onsen data
+        const demoData = {
+            places: [
+                {
+                    id: "1",
+                    name: "Niseko Ramen",
+                    address: "Hirafu, Niseko, Hokkaido",
+                    latitude: 42.8050,
+                    longitude: 140.6890,
+                    category: "ramen",
+                    color: "red",
+                    notes: "Most popular. Rich tonkotsu broth, local favorite."
+                },
+                {
+                    id: "2",
+                    name: "Gogyo by Ippudo",
+                    address: "Hirafu, Niseko, Hokkaido",
+                    latitude: 42.8065,
+                    longitude: 140.6875,
+                    category: "ramen",
+                    color: "purple",
+                    notes: "Best for late-night party. Open until 2am, burnt miso specialty."
+                },
+                {
+                    id: "3",
+                    name: "The Select",
+                    address: "Hirafu, Niseko, Hokkaido",
+                    latitude: 42.8030,
+                    longitude: 140.6920,
+                    category: "ramen",
+                    color: "green",
+                    notes: "Premium specials. High-end ingredients, truffle ramen."
+                },
+                {
+                    id: "4",
+                    name: "Yamaokaya",
+                    address: "Hirafu, Niseko, Hokkaido",
+                    latitude: 42.8080,
+                    longitude: 140.6860,
+                    category: "ramen",
+                    color: "blue",
+                    notes: "Casual chain. Reliable quality, budget-friendly."
+                },
+                {
+                    id: "5",
+                    name: "Niseko Grand Hotel",
+                    address: "Niseko Konbu Onsen Village, Hokkaido",
+                    latitude: 42.8380,
+                    longitude: 140.6560,
+                    category: "onsen",
+                    color: "orange",
+                    notes: "Mixed onsen (男女共浴). Open 11:30-22:00. Day pass: ¥3,000. Large outdoor garden bath, couples can bathe together with provided yukata."
+                }
+            ],
+            created: new Date().toISOString()
+        };
+        
+        // Encode and redirect
+        const jsonStr = JSON.stringify(demoData);
+        const base64 = btoa(jsonStr);
+        window.location.href = `index.html?data=${base64}`;
+    </script>
+</head>
+<body>
+    <p>Loading demo...</p>
+</body>
+</html>
