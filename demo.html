@@ -64,7 +64,8 @@
         // Encode and redirect
         const jsonStr = JSON.stringify(demoData);
         const base64 = btoa(jsonStr);
-        window.location.href = `index.html?data=${base64}`;
+        // Use relative path that works on GitHub Pages
+        window.location.href = `./?data=${base64}`;
     </script>
 </head>
 <body>
