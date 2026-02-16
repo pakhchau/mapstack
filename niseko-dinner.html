@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niseko Dinner Plan - Feb 17-20</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+        }
+        #app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 1rem 1.5rem;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        #map { flex: 1; }
+        .restaurant-popup {
+            font-size: 14px;
+            min-width: 240px;
+        }
+        .restaurant-popup h3 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .restaurant-popup .time {
+            color: #666;
+            margin: 4px 0;
+            font-weight: 500;
+        }
+        .restaurant-popup .notes {
+            color: #666;
+            font-size: 13px;
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+        .restaurant-popup a {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 16px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .restaurant-popup a:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="logo">🍽️ Niseko Dinner Plan (Feb 17-20)</div>
+        </header>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize map
+        const map = L.map('map').setView([42.8548, 140.7087], 14);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Restaurants
+        const restaurants = [
+            {
+                name: '龍之舞燒肉',
+                nameEn: 'Ryu no Mai Yakiniku',
+                date: 'Feb 17 (Sun)',
+                time: '19:30',
+                pax: '5 pax',
+                coords: [42.8601824, 140.7050194],
+                url: 'https://maps.app.goo.gl/kTqiFFnUg3rgbhfbA',
+                emoji: '🍖',
+                notes: 'Japanese BBQ (Yakiniku)'
+            },
+            {
+                name: 'YAOYA Niseko',
+                nameEn: 'YAOYA Niseko Yakitori',
+                date: 'Feb 18 (Mon)',
+                time: '19:30',
+                pax: '5 pax',
+                coords: [42.8446816, 140.7144258],
+                url: 'https://maps.app.goo.gl/uWcjVJ58Gz2YBw1J9',
+                emoji: '🍗',
+                notes: 'Grilled Chicken (Yakitori)'
+            },
+            {
+                name: '龍之鍋',
+                nameEn: 'Ryu no Nabe Hotpot',
+                date: 'Feb 19 (Tue)',
+                time: '20:30',
+                pax: '5 pax',
+                coords: [42.8602943, 140.7032937],
+                url: 'https://maps.app.goo.gl/4KfSGYd54NJTucJJ6',
+                emoji: '🍲',
+                notes: 'Japanese Hotpot (Nabe)'
+            },
+            {
+                name: '居酒屋 心情家',
+                nameEn: 'Izakaya Kokorokeya',
+                date: 'Feb 20 (Wed)',
+                time: '20:00',
+                pax: '5 pax',
+                coords: [42.8560689, 140.7078826],
+                url: 'https://maps.app.goo.gl/Nr1WSt2DFBxMMWNw9',
+                emoji: '🍶',
+                notes: 'Japanese Pub (Izakaya)'
+            }
+        ];
+
+        // Create custom icon
+        function createIcon(emoji) {
+            return L.divIcon({
+                html: `<div style="font-size: 32px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">${emoji}</div>`,
+                className: '',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -40]
+            });
+        }
+
+        // Add markers
+        const bounds = [];
+        restaurants.forEach((restaurant, index) => {
+            const marker = L.marker(restaurant.coords, {
+                icon: createIcon(restaurant.emoji)
+            }).addTo(map);
+            
+            const popup = `
+                <div class="restaurant-popup">
+                    <h3>${restaurant.emoji} ${restaurant.name}</h3>
+                    <div class="time">📅 ${restaurant.date} ${restaurant.time}</div>
+                    <div class="time">👥 ${restaurant.pax}</div>
+                    <div class="notes">${restaurant.notes}</div>
+                    <a href="${restaurant.url}" target="_blank">📍 Open in Google Maps</a>
+                </div>
+            `;
+            
+            marker.bindPopup(popup);
+            bounds.push(restaurant.coords);
+            
+            // Open first popup
+            if (index === 0) {
+                setTimeout(() => marker.openPopup(), 500);
+            }
+        });
+
+        // Fit map to show all markers
+        if (bounds.length > 0) {
+            map.fitBounds(bounds, { padding: [60, 60] });
+        }
+    </script>
+</body>
+</html>
